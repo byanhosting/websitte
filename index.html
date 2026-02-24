@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iyannn Store - Panel Pterodactyl</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin:0; padding:0; font-family:'Inter', sans-serif;}
+    body { background:#f5f6fa; color:#333; overflow-x:hidden; }
+    
+    header {
+      background: linear-gradient(-45deg,#4b6cb7,#182848,#4b6cb7,#182848);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color:#fff;
+      padding:40px 20px;
+      text-align:center;
+    }
+    @keyframes gradientBG{
+      0%{background-position:0% 50%;}
+      50%{background-position:100% 50%;}
+      100%{background-position:0% 50%;}
+    }
+    header h1{ font-size:2.5rem; margin-bottom:10px;}
+    header p{ font-size:1.1rem;}
+    header a{ color:#ffdd59; text-decoration:none; font-weight:600;}
+
+    section{ max-width:1000px; margin:40px auto; padding:0 20px;}
+    h2{ font-size:1.8rem; color:#182848; margin-bottom:20px; position:relative;}
+    h2::after{ content:''; width:60px; height:4px; background:#4b6cb7; display:block; margin-top:5px; border-radius:2px; }
+
+    .pay-methods,.links,.services,.info-panel{ background:#fff; border-radius:12px; padding:20px; margin-bottom:30px; box-shadow:0 4px 15px rgba(0,0,0,0.08);}
+    .pay-methods p,.links p,.services p,.info-panel p{ font-size:1rem; margin-bottom:8px; }
+    .links a{ color:#4b6cb7; text-decoration:none; font-weight:600; }
+
+    /* Produk */
+    .products{ margin-top:20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px;}
+    .product-card{
+      background:#182848;
+      color:#fff;
+      padding:20px;
+      border-radius:12px;
+      text-align:center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      opacity:0; transform:translateY(20px);
+    }
+    .product-card.show{ opacity:1; transform:translateY(0);}
+    .product-card:hover{ transform:translateY(-5px); box-shadow:0 10px 20px rgba(0,0,0,0.2);}
+    .product-card h3{ font-size:1.5rem; margin-bottom:10px;}
+    .product-card p{ margin-bottom:15px; font-weight:500; }
+
+    .order-btn{
+      display:inline-block;
+      padding:10px 18px;
+      background:#ffdd59;
+      color:#182848;
+      font-weight:600;
+      border-radius:8px;
+      text-decoration:none;
+      transition: background 0.3s;
+    }
+    .order-btn:hover{ background:#ffc107;}
+
+    /* Filter Produk */
+    .filter-buttons{ text-align:center; margin-bottom:20px;}
+    .filter-btn{
+      display:inline-block; padding:8px 15px; margin:0 5px;
+      background:#4b6cb7; color:#fff; border-radius:8px; cursor:pointer; font-weight:600;
+      transition:0.3s;
+    }
+    .filter-btn:hover{ background:#182848;}
+
+    footer{
+      text-align:center; padding:30px 20px; background:#182848; color:#fff; font-size:14px; margin-top:50px;
+    }
+    footer a{ color:#ffdd59; text-decoration:none;}
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Halloww Semua nya 👋</h1>
+  <p>Order: @iyannnstore | WhatsApp: <a href="https://wa.me/620895342462745" target="_blank">+62 0895-3424-6745</a></p>
+</header>
+
+<section>
+  <div class="pay-methods">
+    <h2>Pembayaran</h2>
+    <p>QR ✔️ | Dana ✔️ | Gopay ✔️</p>
+  </div>
+
+  <div class="links">
+    <h2>Grup & Saluran</h2>
+    <p>Grup link: <a href="#" target="_blank">Klik di sini</a></p>
+    <p>Saluran link: <a href="#" target="_blank">Klik di sini</a></p>
+  </div>
+
+  <div class="products-section">
+    <h2>Panel Pterodactyl</h2>
+    <div class="filter-buttons">
+      <span class="filter-btn" onclick="filterProducts('all')">All</span>
+      <span class="filter-btn" onclick="filterProducts('gb')">Gb 1-10</span>
+      <span class="filter-btn" onclick="filterProducts('unli')">Unli</span>
+    </div>
+    <div class="products">
+      <!-- Produk Gb 1-10 -->
+      <div class="product-card gb">
+        <h3>Gb 1</h3>
+        <p>K / Aktif 30 Day</p>
+        <a class="order-btn" href="https://wa.me/620895342462745?text=Order+Gb+1" target="_blank">Order via WA</a>
+      </div>
+      <div class="product-card gb">
+        <h3>Gb 2</h3>
+        <p>K / Aktif 30 Day</p>
+        <a class="order-btn" href="https://wa.me/620895342462745?text=Order+Gb+2" target="_blank">Order via WA</a>
+      </div>
+      <div class="product-card gb">
+        <h3>Gb 3</h3>
+        <p>K / Aktif 30 Day</p>
+        <a class="order-btn" href="https://wa.me/620895342462745?text=Order+Gb+3" target="_blank">Order via WA</a>
+      </div>
+      <!-- Tambahkan Gb 4-10 serupa -->
+      <div class="product-card unli">
+        <h3>Unli</h3>
+        <p>K / Aktif 30 Day</p>
+        <a class="order-btn" href="https://wa.me/620895342462745?text=Order+Unli" target="_blank">Order via WA</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="services">
+    <h2>Reseller & Layanan</h2>
+    <p>Open reseller: 1K / bulan | Server private</p>
+    <p>Open adp: 5K | Pt panel: 10K</p>
+    <p>Sell SC Cpanel via WhatsApp pribadi: K | Install panel via IP VPS: 5K</p>
+  </div>
+
+  <div class="info-panel">
+    <h2>Kegunaan Panel</h2>
+    <p>Lu bisa jual produk digital panel, bikin bot jaga grup, pushkontak, atau buat jasa bug.</p>
+  </div>
+</section>
+
+<footer>
+  &copy; 2026 Iyannn Store | WhatsApp: <a href="https://wa.me/620895342462745" target="_blank">+62 0895-3424-6745</a>
+</footer>
+
+<script>
+  // Filter Produk
+  function filterProducts(type){
+    const products = document.querySelectorAll('.product-card');
+    if(type === 'all'){
+      products.forEach(p => p.style.display='block');
+    } else {
+      products.forEach(p => {
+        if(p.classList.contains(type)) p.style.display='block';
+        else p.style.display='none';
+      });
+    }
+    animateCards();
+  }
+
+  // Animasi scroll fade-in
+  function animateCards(){
+    const cards = document.querySelectorAll('.product-card');
+    cards.forEach((card, index)=>{
+      setTimeout(()=>{card.classList.add('show')}, index*100);
+    });
+  }
+  window.addEventListener('load', animateCards);
+</script>
+
+</body>
+</html>
