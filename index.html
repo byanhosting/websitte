@@ -1,171 +1,159 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Iyannn Store - Panel Pterodactyl</title>
 
 <style>
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
-    color:white;
-    text-align:center;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+    text-align: center;
 }
 
-header{
-    padding:30px 20px;
+h1 {
+    color: #38bdf8;
+    text-shadow: 0 0 10px #38bdf8,
+                 0 0 20px #38bdf8,
+                 0 0 40px #0ea5e9;
+    animation: glow 2s infinite alternate;
 }
 
-.card{
-    background:#1e293b;
-    padding:20px;
-    border-radius:15px;
-    margin:15px auto;
-    max-width:400px;
-    animation:fadeIn 0.6s ease;
+@keyframes glow {
+    from { text-shadow: 0 0 10px #38bdf8; }
+    to { text-shadow: 0 0 30px #0ea5e9; }
 }
 
-.btn{
-    background:linear-gradient(45deg,#a855f7,#6366f1);
-    color:white;
-    border:none;
-    padding:10px 20px;
-    border-radius:10px;
-    cursor:pointer;
-    margin-top:10px;
+.section {
+    padding: 20px;
 }
 
-.hidden{
-    display:none;
+.card {
+    background: rgba(30,41,59,0.9);
+    margin: 10px auto;
+    padding: 15px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 0 15px rgba(56,189,248,0.3);
+    transition: 0.3s;
 }
 
-#payment{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100vh;
-    background:#0f172a;
-    padding:30px 20px;
-    overflow:auto;
+.card:hover {
+    transform: scale(1.05);
 }
 
-.qr{
-    width:100%;
-    max-width:320px;
-    border-radius:20px;
-    margin-top:20px;
-    animation:glow 2s infinite;
+button {
+    background: #38bdf8;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 8px;
 }
 
-@keyframes glow{
-    0%{box-shadow:0 0 20px #a855f7;}
-    50%{box-shadow:0 0 50px #6366f1;}
-    100%{box-shadow:0 0 20px #a855f7;}
+button:hover {
+    background: #0ea5e9;
 }
 
-@keyframes fadeIn{
-    from{opacity:0;transform:translateY(10px);}
-    to{opacity:1;transform:translateY(0);}
+/* NOTIF */
+#notif {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: #1e293b;
+    padding: 12px 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #38bdf8;
+    display: none;
+}
+
+/* COUNTER */
+#counterBox {
+    background: #1e293b;
+    margin: 20px auto;
+    padding: 12px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 0 15px #38bdf8;
 }
 </style>
-</head>
-
-<body>
-
-<header>
-<h1>🚀 Iyannn Store</h1>
-<p>Menjual Panel Pterodactyl 1GB - Unlimited</p>
-<p>Whatsapp: 62895342462745</p>
-<p><a href="https://lynk.id/iyannhosting" style="color:#c084fc;">My Lynk</a></p>
-</header>
-
-<div class="card">
-<h3>📦 Panel 1GB - 10GB / Unli</h3>
-<p>Aktif 30 Hari</p>
-<button class="btn" onclick="showPayment()">Order Sekarang</button>
-</div>
-
-<div class="card">
-<h3>📦 Reseller Panel</h3>
-<p>1K / Bulan</p>
-<button class="btn" onclick="showPayment()">Order Sekarang</button>
-</div>
-
-<div class="card">
-<h3>📦 Install Panel Via VPS</h3>
-<p>5K</p>
-<button class="btn" onclick="showPayment()">Order Sekarang</button>
-</div>
-
-<!-- PAYMENT POPUP -->
-<div id="payment" class="hidden">
-<button class="btn" onclick="closePayment()">← Kembali</button>
-
-<h2>QRIS Payment</h2>
-<p>Kode Transaksi:</p>
-<h3 id="trx"></h3>
-
-<h3 id="timer" style="color:#ef4444;">05:00</h3>
-
-<img src="https://files.catbox.moe/6q6d4f.jpg" class="qr">
-
-<br><br>
-
-<button class="btn" onclick="kirimWA()">Konfirmasi via WhatsApp</button>
-</div>
 
 <script>
-let waktu = 300;
-let countdown;
+let audio = new Audio("https://www.myinstants.com/media/sounds/notification.mp3");
 
-function generateTrx(){
-    return "TRX-" + Math.random().toString(36).substr(2,6).toUpperCase();
+// Ambil data order dari localStorage
+function loadCounter(){
+    let count = localStorage.getItem("totalOrder");
+    if(!count){
+        count = 0;
+        localStorage.setItem("totalOrder", 0);
+    }
+    document.getElementById("totalOrder").innerText = count;
 }
 
-function showPayment(){
-    document.getElementById("payment").classList.remove("hidden");
-    document.getElementById("trx").innerHTML = generateTrx();
-    startTimer();
-}
+// Fungsi order
+function order(paket) {
 
-function closePayment(){
-    document.getElementById("payment").classList.add("hidden");
-    clearInterval(countdown);
-    waktu = 300;
-    document.getElementById("timer").innerHTML="05:00";
-}
+    // Tambah counter
+    let count = localStorage.getItem("totalOrder");
+    count++;
+    localStorage.setItem("totalOrder", count);
+    document.getElementById("totalOrder").innerText = count;
 
-function startTimer(){
-    clearInterval(countdown);
-    waktu=300;
+    // Notif
+    let notif = document.getElementById("notif");
+    notif.innerHTML = "Kamu memilih paket " + paket + " 🔥";
+    notif.style.display = "block";
+    audio.play();
 
-    countdown=setInterval(function(){
-        let menit=Math.floor(waktu/60);
-        let detik=waktu%60;
+    setTimeout(()=>{
+        notif.style.display = "none";
+    },3000);
 
-        document.getElementById("timer").innerHTML=
-        (menit<10?"0":"")+menit+":"+
-        (detik<10?"0":"")+detik;
-
-        if(waktu<=0){
-            clearInterval(countdown);
-            closePayment();
-        }
-        waktu--;
+    // Buka WA
+    setTimeout(()=>{
+        let nomor = "62895342462745";
+        let pesan = "Halo kak, saya mau order Panel " + paket + " Iyannn Store";
+        window.open("https://wa.me/" + nomor + "?text=" + encodeURIComponent(pesan));
     },1000);
 }
 
-function kirimWA(){
-    let nomor="620895342462745";
-    let trx=document.getElementById("trx").innerHTML;
-    let pesan="Halo admin, saya sudah bayar.\nKode Transaksi: "+trx;
-
-    window.open("https://wa.me/"62895342462745"?text="+encodeURIComponent(pesan),"_blank");
-}
+window.onload = loadCounter;
 </script>
+
+</head>
+<body>
+
+<header>
+    <h1>Iyannn Store</h1>
+    <p>Panel Pterodactyl Murah & Aman 🔥</p>
+</header>
+
+<div id="counterBox">
+    🔥 Total Order Hari Ini: <b id="totalOrder">0</b>
+</div>
+
+<div class="section">
+    <h2>List Panel (Aktif 30 Hari)</h2>
+
+    <div class="card">📦 1GB - K <br><button onclick="order('1GB')">Order</button></div>
+    <div class="card">📦 2GB - K <br><button onclick="order('2GB')">Order</button></div>
+    <div class="card">📦 5GB - K <br><button onclick="order('5GB')">Order</button></div>
+    <div class="card">📦 10GB - K <br><button onclick="order('10GB')">Order</button></div>
+    <div class="card">📦 Unlimited - K <br><button onclick="order('Unlimited')">Order</button></div>
+</div>
+
+<div id="notif"></div>
+
+<footer style="padding:20px;">
+    © 2026 Iyannn Store
+</footer>
 
 </body>
 </html>
