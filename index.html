@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Byan Hosting</title>
+<title>Iyannn Store - Panel Pterodactyl</title>
 
 <style>
 body{
@@ -14,35 +14,47 @@ body{
     text-align:center;
 }
 
-.container{
-    padding:30px;
+header{
+    padding:30px 20px;
+}
+
+.card{
+    background:#1e293b;
+    padding:20px;
+    border-radius:15px;
+    margin:15px auto;
+    max-width:400px;
+    animation:fadeIn 0.6s ease;
+}
+
+.btn{
+    background:linear-gradient(45deg,#a855f7,#6366f1);
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:10px;
+    cursor:pointer;
+    margin-top:10px;
 }
 
 .hidden{
     display:none;
 }
 
-.btn{
-    background:linear-gradient(45deg,#a855f7,#6366f1);
-    color:white;
-    padding:12px 22px;
-    border:none;
-    border-radius:12px;
-    cursor:pointer;
-    margin:10px;
-}
-
-.back{
-    background:none;
-    border:none;
-    color:#c084fc;
-    font-size:16px;
-    cursor:pointer;
+#payment{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100vh;
+    background:#0f172a;
+    padding:30px 20px;
+    overflow:auto;
 }
 
 .qr{
     width:100%;
-    max-width:380px;
+    max-width:320px;
     border-radius:20px;
     margin-top:20px;
     animation:glow 2s infinite;
@@ -54,97 +66,79 @@ body{
     100%{box-shadow:0 0 20px #a855f7;}
 }
 
-#notif{
-    position:fixed;
-    bottom:20px;
-    left:50%;
-    transform:translateX(-50%);
-    background:#22c55e;
-    padding:15px 25px;
-    border-radius:12px;
-    display:none;
-}
-
-#loadingScreen{
-    position:fixed;
-    width:100%;
-    height:100vh;
-    background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
+@keyframes fadeIn{
+    from{opacity:0;transform:translateY(10px);}
+    to{opacity:1;transform:translateY(0);}
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOADING -->
-<div id="loadingScreen">
-    <h1>Byan Hosting</h1>
-    <p>Loading System...</p>
+<header>
+<h1>🚀 Iyannn Store</h1>
+<p>Menjual Panel Pterodactyl 1GB - Unlimited</p>
+<p>Whatsapp: 62895342462745</p>
+<p><a href="https://lynk.id/iyannhosting" style="color:#c084fc;">My Lynk</a></p>
+</header>
+
+<div class="card">
+<h3>📦 Panel 1GB - 10GB / Unli</h3>
+<p>Aktif 30 Hari</p>
+<button class="btn" onclick="showPayment()">Order Sekarang</button>
 </div>
 
-<!-- HOME -->
-<div class="container" id="home">
-    <h1>Welcome To Byan Hosting</h1>
-    <button class="btn" onclick="showPayment()">Bayar Sekarang</button>
+<div class="card">
+<h3>📦 Reseller Panel</h3>
+<p>1K / Bulan</p>
+<button class="btn" onclick="showPayment()">Order Sekarang</button>
 </div>
 
-<!-- PAYMENT -->
-<div class="container hidden" id="payment">
-    <button class="back" onclick="backHome()">← Kembali</button>
-    <h2>QRIS Payment</h2>
-
-    <p>Kode Transaksi:</p>
-    <h3 id="trx"></h3>
-
-    <h3 id="timer" style="color:#ff4d4d;">05:00</h3>
-
-    <img 
-      src="https://files.catbox.moe/6q6d4f.jpg"
-      class="qr"
-    >
-
-    <br><br>
-
-    <button class="btn" onclick="kirimWA()">Konfirmasi via WhatsApp</button>
+<div class="card">
+<h3>📦 Install Panel Via VPS</h3>
+<p>5K</p>
+<button class="btn" onclick="showPayment()">Order Sekarang</button>
 </div>
 
-<div id="notif">Berhasil membuka WhatsApp 🚀</div>
+<!-- PAYMENT POPUP -->
+<div id="payment" class="hidden">
+<button class="btn" onclick="closePayment()">← Kembali</button>
+
+<h2>QRIS Payment</h2>
+<p>Kode Transaksi:</p>
+<h3 id="trx"></h3>
+
+<h3 id="timer" style="color:#ef4444;">05:00</h3>
+
+<img src="https://files.catbox.moe/6q6d4f.jpg" class="qr">
+
+<br><br>
+
+<button class="btn" onclick="kirimWA()">Konfirmasi via WhatsApp</button>
+</div>
 
 <script>
 let waktu = 300;
 let countdown;
 
-window.onload = function(){
-    setTimeout(()=>{
-        document.getElementById("loadingScreen").style.display="none";
-    },2000);
-}
-
 function generateTrx(){
-    return "BYN-" + Math.random().toString(36).substr(2,6).toUpperCase();
+    return "TRX-" + Math.random().toString(36).substr(2,6).toUpperCase();
 }
 
 function showPayment(){
-    document.getElementById("home").classList.add("hidden");
     document.getElementById("payment").classList.remove("hidden");
     document.getElementById("trx").innerHTML = generateTrx();
-    mulaiTimer();
+    startTimer();
 }
 
-function backHome(){
+function closePayment(){
     document.getElementById("payment").classList.add("hidden");
-    document.getElementById("home").classList.remove("hidden");
     clearInterval(countdown);
     waktu = 300;
     document.getElementById("timer").innerHTML="05:00";
 }
 
-function mulaiTimer(){
+function startTimer(){
     clearInterval(countdown);
     waktu=300;
 
@@ -158,22 +152,18 @@ function mulaiTimer(){
 
         if(waktu<=0){
             clearInterval(countdown);
-            backHome();
+            closePayment();
         }
         waktu--;
     },1000);
 }
 
 function kirimWA(){
-    let nomor="62895342462745"; // GANTI NOMOR LU
+    let nomor="620895342462745";
     let trx=document.getElementById("trx").innerHTML;
-    let pesan="Halo admin, saya sudah bayar. Kode Transaksi: "+trx;
+    let pesan="Halo admin, saya sudah bayar.\nKode Transaksi: "+trx;
 
-    window.open("https://wa.me/"+nomor+"?text="+encodeURIComponent(pesan),"_blank");
-
-    let notif=document.getElementById("notif");
-    notif.style.display="block";
-    setTimeout(()=>notif.style.display="none",3000);
+    window.open("https://wa.me/"62895342462745"?text="+encodeURIComponent(pesan),"_blank");
 }
 </script>
 
